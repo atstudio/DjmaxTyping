@@ -4,13 +4,13 @@ using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.Generic;
 
-namespace SansTyping {
+namespace Typing {
     public partial class MainWindow : Window {
         private MediaPlayer[] players;
         private int index;
-
-        private int lastHit;
+        private Dictionary<int, bool> pressed = new Dictionary<int, bool>();
 
         public MainWindow() {
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace SansTyping {
             Hook.KeyboardHook.HookStart();
 
             players = new MediaPlayer[5];
-            var audioPath = new Uri($"file:///{Path.Combine(Directory.GetCurrentDirectory(), "SansSpeak.wav")}");
+            var audioPath = new Uri($"file:///{Path.Combine(Directory.GetCurrentDirectory(), "Sound.wav")}");
             for (var i = 0; i < players.Length; i++) {
                 players[i] = new MediaPlayer();
                 players[i].Open(audioPath);
@@ -31,18 +31,18 @@ namespace SansTyping {
         }
 
         private bool KeyboardHook_KeyDown(int vkCode) {
-            if (lastHit == vkCode) {
-                return true;
+            if (!pressed.ContainsKey(vkCode)) {
+                pressed[vkCode] = false;
             }
-            lastHit = vkCode;
-            Play();
+            if (!pressed[vkCode]) {
+                Play();
+                pressed[vkCode] = true;
+            }
             return true;
         }
 
         private bool KeyboardHook_KeyUp(int vkCode) {
-            if (lastHit == vkCode) {
-                lastHit = -1;
-            }
+            pressed[vkCode] = false;
             return true;
         }
 
