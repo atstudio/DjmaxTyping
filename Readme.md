@@ -9,7 +9,7 @@
 </p>
 
 
-다운로드는 [release](https://github.com/rosenrose/SansTyping/releases/)
+다운로드는 [release](https://github.com/rosenrose/DjmaxTyping/releases/)
 
 [리플랙 비트 키음](https://drive.google.com/file/d/1NN5_HtsdXutSUb9JQ26bixO4CEtZgsMt/view?usp=sharing) (132개, 판정별 키음 다있음)
 
