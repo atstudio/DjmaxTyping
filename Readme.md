@@ -1,7 +1,7 @@
 # Djmax Typing
 
 <p align="center">
-  <img src="SansTyping/djmax.gif" /></a>
+  <img src="happy.webp"/>
   <br>
 <b>YOU TYPE</b>
   <br>
