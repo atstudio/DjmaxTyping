@@ -9,7 +9,7 @@
 </p>
 
 
-다운로드는 [release](https://github.com/rosenrose/DjmaxTyping/releases/)
+다운로드는 [여기로](https://github.com/rosenrose/DjmaxTyping/releases/)
 
 [리플렉 비트 타격음](https://drive.google.com/file/d/1NN5_HtsdXutSUb9JQ26bixO4CEtZgsMt/view) (132개, 판정별 타격음 다있음)
 
