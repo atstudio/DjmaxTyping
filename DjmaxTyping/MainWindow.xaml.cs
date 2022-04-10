@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Typing {
     public partial class MainWindow : Window {
@@ -24,7 +23,6 @@ namespace Typing {
 
             // 지정된 오디오 파일 불러오기
             string defaultAudioPath = (string) cfg.Get("audiopath");
-            Debug.WriteLine(defaultAudioPath);
             if (defaultAudioPath.Equals(""))
             {
                 // ini 파일이 없는 경우 
