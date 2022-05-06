@@ -9,6 +9,13 @@
         Title="MainWindow" Height="131" Width="400" Icon="djmax-256.png" ResizeMode="CanResizeWithGrip" WindowStyle="None" AllowsTransparency="True"
         MouseDown="Window_MouseDown"
         Topmost="True">
+    <Window.ContextMenu>
+        <ContextMenu Name="ctxMenu">
+            <MenuItem Header="설정" Tag="CONFIG" Click="CONFIG_MenuItem_Click" />
+            <Separator/>
+            <MenuItem Header="종료" Tag="EXIT" Click="EXIT_MenuItem_Click" />
+        </ContextMenu>
+    </Window.ContextMenu>
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="White" />
     </Window.Background>
