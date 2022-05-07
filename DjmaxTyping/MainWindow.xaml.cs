@@ -15,14 +15,15 @@ namespace Typing {
         ConfigWindow cfgWnd;
         Configure cfg = new Configure();
  
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
             Hook.KeyboardHook.KeyDown += KeyboardHook_KeyDown;
             Hook.KeyboardHook.KeyUp += KeyboardHook_KeyUp;
             Hook.KeyboardHook.HookStart();
 
             // 지정된 오디오 파일 불러오기
-            string defaultAudioPath = (string) cfg.Get("audiopath");
+            string defaultAudioPath = (string)cfg.Get("audiopath");
             if (defaultAudioPath.Equals(""))
             {
                 // ini 파일이 없는 경우 
@@ -48,36 +49,43 @@ namespace Typing {
             }
         }
 
-        private bool KeyboardHook_KeyDown(int vkCode) {
-            if (!pressed.ContainsKey(vkCode)) {
+        private bool KeyboardHook_KeyDown(int vkCode)
+        {
+            if (!pressed.ContainsKey(vkCode))
+            {
                 pressed[vkCode] = false;
             }
-            if (!pressed[vkCode]) {
+            if (!pressed[vkCode])
+            {
                 Play();
                 pressed[vkCode] = true;
             }
             return true;
         }
 
-        private bool KeyboardHook_KeyUp(int vkCode) {
+        private bool KeyboardHook_KeyUp(int vkCode)
+        {
             pressed[vkCode] = false;
             return true;
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
             if (e.ChangedButton == MouseButton.Left) {
                 this.DragMove();
             }
             else if (e.ChangedButton == MouseButton.Right)
             {
-                // do nothing
+                return;
             }
-            else {
+            else
+            {
                 Play();
             }
         }
 
-        private void Play() {
+        private void Play()
+        {
             players[index].Stop();
             players[index].Play();
             index = (index + 1) % players.Length;

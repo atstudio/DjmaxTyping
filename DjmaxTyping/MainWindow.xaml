@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Typing"
         xmlns:wpfanimated="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="131" Width="400" Icon="djmax-256.png" ResizeMode="CanResizeWithGrip" WindowStyle="None" AllowsTransparency="True"
+        Title="MainWindow" Icon="djmax-256.png" ResizeMode="CanResizeWithGrip" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen"
         MouseDown="Window_MouseDown"
         Topmost="True">
     <Window.ContextMenu>

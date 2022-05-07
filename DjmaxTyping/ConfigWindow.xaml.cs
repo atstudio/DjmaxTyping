@@ -29,7 +29,7 @@ namespace Typing
             InitializeComponent();
 
             // INI 파일에 있는 내용으로 셋팅
-            PlayFileTextBox.Text = (string) cfg.Get("audiopath");
+            PlayFileTextBox.Text = (string)cfg.Get("audiopath");
         }
  
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ namespace Typing
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             DoSave(PlayFileTextBox.Text);
-            System.Windows.Forms.MessageBox.Show("설정이 저장되었습니다!");
+            System.Windows.Forms.MessageBox.Show("설정이 저장되었습니다.");
         }
     }
 }
