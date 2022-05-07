@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Windows.Forms;
 
 namespace Typing
@@ -29,40 +17,52 @@ namespace Typing
             InitializeComponent();
 
             // INI 파일에 있는 내용으로 셋팅
-            PlayFileTextBox.Text = (string)cfg.Get("audiopath");
+            PlayFileTextBox.Text = (string)cfg.Get("audioPath");
+            BgImageTextBox.Text = (string)cfg.Get("imagePath");
         }
  
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+            DialogResult = false;
         }
 
-        private void FindFileButton_Click(object sender, RoutedEventArgs e)
+        private void FindAudioFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlgOpenFile = new OpenFileDialog();
-            dlgOpenFile.Filter = "미디어 파일 (*.mp3, *.wav)|*.mp3;*.wav|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav";
+            dlgOpenFile.Filter = "오디오 파일 (*.mp3, *.wav)|*.mp3;*.wav|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav";
 
             if (dlgOpenFile.ShowDialog().ToString().Equals("OK"))
             {
                 PlayFileTextBox.Text = dlgOpenFile.FileName;
             }
         }
+        private void FindImageFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlgOpenFile = new OpenFileDialog();
+            dlgOpenFile.Filter = "이미지 파일 (*.gif, *.jpg, *.png)|*.gif;*.jpg;*.png|gif (*.gif)|*.gif|jpg (*.jpg)|*.jpg|png (*.png)|*.png";
+
+            if (dlgOpenFile.ShowDialog().ToString().Equals("OK"))
+            {
+                BgImageTextBox.Text = dlgOpenFile.FileName;
+            }
+        }
 
         private void SaveCloseButton_Click(object sender, RoutedEventArgs e)
         {
-            DoSave(PlayFileTextBox.Text);
-            this.DialogResult = true;
+            DoSave();
+            DialogResult = true;
         }
 
-        private void DoSave(string fileName)
+        private void DoSave()
         {
-            cfg.Put("audioPath", fileName);
-            SendMsg(fileName);
+            cfg.Put("audioPath", PlayFileTextBox.Text);
+            cfg.Put("imagePath", BgImageTextBox.Text);
+            SendMsg(null);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            DoSave(PlayFileTextBox.Text);
+            DoSave();
             System.Windows.Forms.MessageBox.Show("설정이 저장되었습니다.");
         }
     }
