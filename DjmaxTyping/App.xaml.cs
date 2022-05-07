@@ -30,15 +30,10 @@ namespace Typing
 
         private void SaveWindowPosition(object sender, CancelEventArgs e)
         {
-            string currentWindowPositionTop = MainWindow.Top.ToString("G");
-            string currentWindowPositionLeft = MainWindow.Left.ToString("G");
-            string currentWindowWidth = MainWindow.Width.ToString("G");
-            string currentWindowHeight = MainWindow.Height.ToString("G");
-
-            cfg.Put("top", currentWindowPositionTop);
-            cfg.Put("left", currentWindowPositionLeft);
-            cfg.Put("width", currentWindowWidth);
-            cfg.Put("height", currentWindowHeight);
+            cfg.Put("top", MainWindow.Top.ToString("G"));
+            cfg.Put("left", MainWindow.Left.ToString("G"));
+            cfg.Put("width", MainWindow.Width.ToString("G"));
+            cfg.Put("height", MainWindow.Height.ToString("G"));
         }
     }
 }

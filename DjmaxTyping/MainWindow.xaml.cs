@@ -64,8 +64,9 @@ namespace Typing
 
         private void InitPlayer(double volume)
         {
-            players = new MediaPlayer[5];
             Uri audioPath = new Uri($"file:///{defaultAudioPath}");
+            players = new MediaPlayer[5];
+
             for (int i = 0; i < players.Length; i++)
             {
                 players[i] = new MediaPlayer();
