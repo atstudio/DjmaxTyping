@@ -40,7 +40,7 @@ namespace Typing
         private void FindFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlgOpenFile = new OpenFileDialog();
-            dlgOpenFile.Filter = "미디어 파일 (*.mp3, *.wav, *.m4a)|*.mp3;*.wav;*.m4a|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav|m4a (*.m4a)|*.m4a";
+            dlgOpenFile.Filter = "미디어 파일 (*.mp3, *.wav)|*.mp3;*.wav|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav";
 
             if (dlgOpenFile.ShowDialog().ToString().Equals("OK"))
             {
