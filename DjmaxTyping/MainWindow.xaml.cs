@@ -1,21 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Collections.Generic;
 
-namespace Typing {
-    public partial class MainWindow : Window {
+namespace Typing
+{
+    public partial class MainWindow : Window
+    {
         private MediaPlayer[] players;
         private int index;
-        private Dictionary<int, bool> pressed = new Dictionary<int, bool>();
+        private readonly Dictionary<int, bool> pressed = new Dictionary<int, bool>();
         private string defaultAudioPath;
         private string defaultImagePath;
-
-        ConfigWindow cfgWnd;
-        Configure cfg = new Configure();
+        private double defaultVolume;
+        private ConfigWindow cfgWnd;
+        private readonly Configure cfg = new Configure();
 
         public MainWindow()
         {
@@ -24,48 +26,56 @@ namespace Typing {
             Hook.KeyboardHook.KeyUp += KeyboardHook_KeyUp;
             Hook.KeyboardHook.HookStart();
 
-            InitAssets(null);
+            InitSettings(null);
         }
 
-        ~MainWindow() {
+        ~MainWindow()
+        {
             Hook.KeyboardHook.HookEnd();
         }
 
-        private void InitAssets(string _)
+        private void InitSettings(string _)
         {
-            // 지정된 오디오, 이미지 파일 불러오기
+            // 지정된 설정값 불러오기
             defaultAudioPath = (string)cfg.Get("audioPath");
-            defaultImagePath = (string)cfg.Get("imagePath");
-
             if (defaultAudioPath.Equals(""))
             {
                 // ini 파일이 없는 경우 
                 defaultAudioPath = $"{Path.Combine(Directory.GetCurrentDirectory(), "Sound.wav")}";
                 cfg.Put("audioPath", defaultAudioPath);
             }
+
+            defaultImagePath = (string)cfg.Get("imagePath");
             if (defaultImagePath.Equals(""))
             {
                 defaultImagePath = $"{Path.Combine(Directory.GetCurrentDirectory(), "djmax.gif")}";
                 cfg.Put("imagePath", defaultImagePath);
             }
 
-            InitPlayer();
+            if (!double.TryParse((string)cfg.Get("volume"), out defaultVolume))
+            {
+                defaultVolume = 50.0;
+                cfg.Put("volume", defaultVolume.ToString("F0"));
+            }
+
+            InitPlayer(defaultVolume);
             InitBackground();
         }
 
-        private void InitPlayer()
+        private void InitPlayer(double volume)
         {
             players = new MediaPlayer[5];
-            var audioPath = new Uri($"file:///{defaultAudioPath}");
-            for (var i = 0; i < players.Length; i++)
+            Uri audioPath = new Uri($"file:///{defaultAudioPath}");
+            for (int i = 0; i < players.Length; i++)
             {
                 players[i] = new MediaPlayer();
                 players[i].Open(audioPath);
+                players[i].Volume = volume / 100;
             }
         }
         private void InitBackground()
         {
-            var image = new BitmapImage();
+            BitmapImage image = new BitmapImage();
             image.BeginInit();
             image.UriSource = new Uri($"file:///{defaultImagePath}");
             image.EndInit();
@@ -95,7 +105,8 @@ namespace Typing {
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left) {
+            if (e.ChangedButton == MouseButton.Left)
+            {
                 DragMove();
             }
             else if (e.ChangedButton == MouseButton.Right)
@@ -123,7 +134,7 @@ namespace Typing {
         private void CONFIG_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             cfgWnd = new ConfigWindow();
-            cfgWnd.SendMsg += new ConfigWindow.SendMessageDlg(InitAssets);
+            cfgWnd.SendMsg += new ConfigWindow.SendMessageDlg(InitSettings);
             cfgWnd.Owner = this;
             cfgWnd.ShowDialog();
         }

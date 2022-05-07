@@ -3,12 +3,9 @@ using System.Windows.Forms;
 
 namespace Typing
 {
-    /// <summary>
-    /// ConfigWindow.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class ConfigWindow : Window
     {
-        Configure cfg = new Configure();
+        private readonly Configure cfg = new Configure();
         public delegate void SendMessageDlg(string msg);
         public event SendMessageDlg SendMsg;
 
@@ -19,8 +16,9 @@ namespace Typing
             // INI 파일에 있는 내용으로 셋팅
             PlayFileTextBox.Text = (string)cfg.Get("audioPath");
             BgImageTextBox.Text = (string)cfg.Get("imagePath");
+            VolumeSlider.Value = double.TryParse((string)cfg.Get("volume"), out double volume) ? volume : 50.0;
         }
- 
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
@@ -28,18 +26,23 @@ namespace Typing
 
         private void FindAudioFileButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dlgOpenFile = new OpenFileDialog();
-            dlgOpenFile.Filter = "오디오 파일 (*.mp3, *.wav)|*.mp3;*.wav|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav";
+            OpenFileDialog dlgOpenFile = new OpenFileDialog
+            {
+                Filter = "오디오 파일 (*.mp3, *.wav)|*.mp3;*.wav|mp3 (*.mp3)|*.mp3|wav (*.wav)|*.wav"
+            };
 
             if (dlgOpenFile.ShowDialog().ToString().Equals("OK"))
             {
                 PlayFileTextBox.Text = dlgOpenFile.FileName;
             }
         }
+
         private void FindImageFileButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dlgOpenFile = new OpenFileDialog();
-            dlgOpenFile.Filter = "이미지 파일 (*.gif, *.jpg, *.png)|*.gif;*.jpg;*.png|gif (*.gif)|*.gif|jpg (*.jpg)|*.jpg|png (*.png)|*.png";
+            OpenFileDialog dlgOpenFile = new OpenFileDialog
+            {
+                Filter = "이미지 파일 (*.gif, *.jpg, *.png)|*.gif;*.jpg;*.png|gif (*.gif)|*.gif|jpg (*.jpg)|*.jpg|png (*.png)|*.png"
+            };
 
             if (dlgOpenFile.ShowDialog().ToString().Equals("OK"))
             {
@@ -57,6 +60,7 @@ namespace Typing
         {
             cfg.Put("audioPath", PlayFileTextBox.Text);
             cfg.Put("imagePath", BgImageTextBox.Text);
+            cfg.Put("volume", VolumeSlider.Value.ToString("F0"));
             SendMsg(null);
         }
 

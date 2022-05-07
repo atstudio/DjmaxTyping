@@ -5,31 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Typing"
         mc:Ignorable="d"
-        Title="설정" Height="180" Width="400" Topmost="True" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="설정" Width="400" Height="210" Topmost="True" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="304*"/>
             <ColumnDefinition Width="221*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="20,20,0,0" Grid.ColumnSpan="2">
-            <StackPanel Height="Auto" Width="Auto" Orientation="Horizontal">
-                <Label Content="재생 파일" VerticalAlignment="Top" Width="84" Height="25" Padding="5,3,5,5"/>
-                <TextBox x:Name="PlayFileTextBox" Tag ="PLAYFILE" IsReadOnly="True" Height="25" Width="200" />
+            <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                <Label Content="타격음" VerticalAlignment="Top" Width="84" Height="25" Padding="5,3,5,5"/>
+                <TextBox x:Name="PlayFileTextBox" Tag ="PLAYFILE" IsReadOnly="True" Width="200" Height="25" />
                 <Button Content="..." Tag="FINDFILE" Margin="10,0,0,0" VerticalAlignment="Top" Width="25" Height="25" Click="FindAudioFileButton_Click"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="20,60,0,0" Grid.ColumnSpan="2">
-            <StackPanel Height="Auto" Width="Auto" Orientation="Horizontal">
+            <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
                 <Label Content="배경 이미지" VerticalAlignment="Top" Width="84" Height="25" Padding="5,3,5,5"/>
-                <TextBox x:Name="BgImageTextBox" Tag ="BGIMAGE" IsReadOnly="True" Height="25" Width="200" />
+                <TextBox x:Name="BgImageTextBox" Tag ="BGIMAGE" IsReadOnly="True" Width="200" Height="25" />
                 <Button Content="..." Tag="FINDFILE" Margin="10,0,0,0" VerticalAlignment="Top" Width="25" Height="25" Click="FindImageFileButton_Click"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Margin="20,110,20,0" Grid.ColumnSpan="2">
-            <StackPanel Height="Auto" Width="Auto" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="저장하고 닫기" Tag="SAVE_CLOSE" IsDefault="True" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="93" Height="25" Click="SaveCloseButton_Click"/>
-                <Button Content="저장" Tag="SAVE" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Height="25" Click="SaveButton_Click"/>
-                <Button Content="닫기" Tag="CLOSE" IsCancel="True" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Height="25" Click="CloseButton_Click"/>
+        <StackPanel Margin="20,100,0,0" Grid.ColumnSpan="2">
+            <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                <Label Content="볼륨" VerticalAlignment="Top" Width="84" Height="25" Padding="5,3,5,5"/>
+                <Slider x:Name="VolumeSlider" Width="240" Height="25" Orientation="Horizontal"
+                        Value="50" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10"
+                        TickPlacement="BottomRight" TickFrequency="10" AutoToolTipPlacement="TopLeft"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="20,140,20,0" Grid.ColumnSpan="2">
+            <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="저장하고 닫기" Tag="SAVE_CLOSE" IsDefault="True" Margin="0,0,10,0"
+                        VerticalAlignment="Top" HorizontalAlignment="Left" Width="93" Height="25" Click="SaveCloseButton_Click"/>
+                <Button Content="저장" Tag="SAVE" Margin="0,0,10,0"
+                        VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Height="25" Click="SaveButton_Click"/>
+                <Button Content="닫기" Tag="CLOSE" IsCancel="True"
+                        VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Height="25" Click="CloseButton_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

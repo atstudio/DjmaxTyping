@@ -114,12 +114,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="djmax-256.png" />
+    <Resource Include="djmax.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="djmax-256.ico" />
-    <Content Include="Sound.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sound.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

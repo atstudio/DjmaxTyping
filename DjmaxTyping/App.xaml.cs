@@ -1,9 +1,11 @@
-﻿using System.Windows;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Windows;
 
-namespace Typing {
-    public partial class App : Application {
-        Configure cfg = new Configure();
+namespace Typing
+{
+    public partial class App : Application
+    {
+        private readonly Configure cfg = new Configure();
         private void Run(object sender, StartupEventArgs e)
         {
             MainWindow = new MainWindow();
@@ -13,20 +15,10 @@ namespace Typing {
         }
         protected void RestoreWindow()
         {
-            string windowTopValue = (string)cfg.Get("top");
-            string windowLeftValue = (string)cfg.Get("left");
-            string windowWidthValue = (string)cfg.Get("width");
-            string windowHeightValue = (string)cfg.Get("height");
-
-            double windowPositionTop;
-            double windowPositionLeft;
-            double windowWidth;
-            double windowHeight;
-
-            if (double.TryParse(windowTopValue, out windowPositionTop)
-                && double.TryParse(windowLeftValue, out windowPositionLeft)
-                && double.TryParse(windowWidthValue, out windowWidth)
-                && double.TryParse(windowHeightValue, out windowHeight))
+            if (double.TryParse((string)cfg.Get("top"), out double windowPositionTop)
+                && double.TryParse((string)cfg.Get("left"), out double windowPositionLeft)
+                && double.TryParse((string)cfg.Get("width"), out double windowWidth)
+                && double.TryParse((string)cfg.Get("height"), out double windowHeight))
             {
                 MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
                 MainWindow.Top = windowPositionTop;
