@@ -34,11 +34,11 @@ namespace Typing {
                 && double.TryParse(windowWidthValue, out windowWidth)
                 && double.TryParse(windowHeightValue, out windowHeight))
             {
+                this.MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
                 this.MainWindow.Top = windowPositionTop;
                 this.MainWindow.Left = windowPositionLeft;
                 this.MainWindow.Width = windowWidth;
                 this.MainWindow.Height = windowHeight;
-                this.MainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
             }
         }
 

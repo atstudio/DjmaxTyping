@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 using System.Collections.Generic;
 
 namespace Typing {
@@ -22,16 +23,24 @@ namespace Typing {
             Hook.KeyboardHook.KeyUp += KeyboardHook_KeyUp;
             Hook.KeyboardHook.HookStart();
 
-            // 지정된 오디오 파일 불러오기
+            // 지정된 오디오, 이미지 파일 불러오기
             string defaultAudioPath = (string)cfg.Get("audiopath");
+            string defaultImagePath = (string)cfg.Get("imagepath");
+
             if (defaultAudioPath.Equals(""))
             {
                 // ini 파일이 없는 경우 
                 defaultAudioPath = $"{Path.Combine(Directory.GetCurrentDirectory(), "Sound.wav")}";
                 cfg.Put("audiopath", defaultAudioPath);
             }
+            if (defaultImagePath.Equals(""))
+            {
+                defaultImagePath = $"{Path.Combine(Directory.GetCurrentDirectory(), "djmax.gif")}";
+                cfg.Put("imagepath", defaultImagePath);
+            }
 
             this.InitPlayer(defaultAudioPath);
+            this.InitBackground(defaultImagePath);
         }
 
         ~MainWindow() {
@@ -47,6 +56,16 @@ namespace Typing {
                 players[i] = new MediaPlayer();
                 players[i].Open(audioPath);
             }
+        }
+        private void InitBackground(string initImagePath)
+        {
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri($"file:///{initImagePath}");
+            image.EndInit();
+
+            Image bgImageElement = this.FindName("bgImage") as Image;
+            WpfAnimatedGif.ImageBehavior.SetAnimatedSource(bgImageElement, image);
         }
 
         private bool KeyboardHook_KeyDown(int vkCode)

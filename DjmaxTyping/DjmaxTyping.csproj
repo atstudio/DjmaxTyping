@@ -113,9 +113,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="djmax.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="djmax-256.png" />
   </ItemGroup>
   <ItemGroup>
