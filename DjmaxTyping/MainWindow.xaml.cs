@@ -124,7 +124,6 @@ namespace Typing
         private double defaultVolume;
         private ConfigWindow cfgWnd;
         private readonly Configure cfg = new Configure();
-        private bool isCtrlPressed = false;
         private bool isMute = false;
 
         public MainWindow()
@@ -168,6 +167,11 @@ namespace Typing
 
             InitPlayer(defaultVolume);
             InitBackground();
+
+            foreach (VKeys vkCode in Enum.GetValues(typeof(VKeys)))
+            {
+                pressed[(int)vkCode] = false;
+            }
         }
 
         private void InitPlayer(double volume)
@@ -194,38 +198,28 @@ namespace Typing
 
         private bool KeyboardHook_KeyDown(int vkCode)
         {
-            if (vkCode == (int)VKeys.VK_LCONTROL || vkCode == (int)VKeys.VK_RCONTROL)
-            {
-                isCtrlPressed = true;
-            }
-
-            if (isCtrlPressed && vkCode == (int)VKeys.VK_M)
-            {
-                ToggleMute();
-            }
-
             if (!pressed.ContainsKey(vkCode))
             {
                 pressed[vkCode] = false;
             }
+
             if (!pressed[vkCode])
             {
                 Play();
                 pressed[vkCode] = true;
             }
-            
+
+            if ((pressed[(int)VKeys.VK_LCONTROL] || pressed[(int)VKeys.VK_LCONTROL]) && vkCode == (int)VKeys.VK_M)
+            {
+                ToggleMute();
+            }
+
             return true;
         }
 
         private bool KeyboardHook_KeyUp(int vkCode)
         {
-            if (vkCode == (int)VKeys.VK_LCONTROL || vkCode == (int)VKeys.VK_RCONTROL)
-            {
-                isCtrlPressed = false;
-            }
-
             pressed[vkCode] = false;
-
             return true;
         }
 
