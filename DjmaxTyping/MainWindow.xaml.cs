@@ -116,14 +116,14 @@ namespace Typing
 
     public partial class MainWindow : Window
     {
-        private MediaPlayer[] players;
-        private int index;
+        private readonly MediaPlayer[] players = new MediaPlayer[5];
+        private int playersIndex;
         private readonly Dictionary<int, bool> isPressed = new Dictionary<int, bool>();
+        private readonly Configure cfg = new Configure();
+        private ConfigWindow cfgWnd;
         private string defaultAudioPath;
         private string defaultImagePath;
         private double defaultVolume;
-        private ConfigWindow cfgWnd;
-        private readonly Configure cfg = new Configure();
         private bool isMute = false;
 
         public MainWindow()
@@ -132,6 +132,11 @@ namespace Typing
             Hook.KeyboardHook.KeyDown += KeyboardHook_KeyDown;
             Hook.KeyboardHook.KeyUp += KeyboardHook_KeyUp;
             Hook.KeyboardHook.HookStart();
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i] = new MediaPlayer();
+            }
 
             InitSettings(null);
 
@@ -170,20 +175,18 @@ namespace Typing
                 cfg.Put("volume", defaultVolume.ToString("F0"));
             }
 
-            InitPlayer(defaultVolume);
+            InitPlayer();
             InitBackground();
         }
 
-        private void InitPlayer(double volume)
+        private void InitPlayer()
         {
             Uri audioPath = new Uri($"file:///{defaultAudioPath}");
-            players = new MediaPlayer[5];
 
-            for (int i = 0; i < players.Length; i++)
+            foreach (MediaPlayer player in players)
             {
-                players[i] = new MediaPlayer();
-                players[i].Open(audioPath);
-                players[i].Volume = volume / 100;
+                player.Open(audioPath);
+                player.Volume = defaultVolume / 100;
             }
         }
         private void InitBackground()
@@ -241,23 +244,19 @@ namespace Typing
 
         private void Play()
         {
-            players[index].Stop();
-            players[index].Play();
-            index = (index + 1) % players.Length;
+            players[playersIndex].Stop();
+            players[playersIndex].Play();
+            playersIndex = (playersIndex + 1) % players.Length;
         }
 
         private void ToggleMute()
         {
-            if (isMute)
-            {
-                InitPlayer(defaultVolume);
-            }
-            else
-            {
-                InitPlayer(0.0);
-            }
-
             isMute = !isMute;
+
+            foreach (MediaPlayer player in players)
+            {
+                player.Volume = isMute ? 0.0 : defaultVolume / 100;
+            }
         }
 
         private void EXIT_MenuItem_Click(object sender, RoutedEventArgs e)
