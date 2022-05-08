@@ -118,7 +118,7 @@ namespace Typing
     {
         private MediaPlayer[] players;
         private int index;
-        private readonly Dictionary<int, bool> pressed = new Dictionary<int, bool>();
+        private readonly Dictionary<int, bool> isPressed = new Dictionary<int, bool>();
         private string defaultAudioPath;
         private string defaultImagePath;
         private double defaultVolume;
@@ -134,6 +134,11 @@ namespace Typing
             Hook.KeyboardHook.HookStart();
 
             InitSettings(null);
+
+            foreach (VKeys vkCode in Enum.GetValues(typeof(VKeys)))
+            {
+                isPressed[(int)vkCode] = false;
+            }
         }
 
         ~MainWindow()
@@ -167,11 +172,6 @@ namespace Typing
 
             InitPlayer(defaultVolume);
             InitBackground();
-
-            foreach (VKeys vkCode in Enum.GetValues(typeof(VKeys)))
-            {
-                pressed[(int)vkCode] = false;
-            }
         }
 
         private void InitPlayer(double volume)
@@ -198,18 +198,18 @@ namespace Typing
 
         private bool KeyboardHook_KeyDown(int vkCode)
         {
-            if (!pressed.ContainsKey(vkCode))
+            if (!isPressed.ContainsKey(vkCode))
             {
-                pressed[vkCode] = false;
+                isPressed[vkCode] = false;
             }
 
-            if (!pressed[vkCode])
+            if (!isPressed[vkCode])
             {
                 Play();
-                pressed[vkCode] = true;
+                isPressed[vkCode] = true;
             }
 
-            if ((pressed[(int)VKeys.VK_LCONTROL] || pressed[(int)VKeys.VK_LCONTROL]) && vkCode == (int)VKeys.VK_M)
+            if ((isPressed[(int)VKeys.VK_LCONTROL] || isPressed[(int)VKeys.VK_LCONTROL]) && vkCode == (int)VKeys.VK_M)
             {
                 ToggleMute();
             }
@@ -219,7 +219,7 @@ namespace Typing
 
         private bool KeyboardHook_KeyUp(int vkCode)
         {
-            pressed[vkCode] = false;
+            isPressed[vkCode] = false;
             return true;
         }
 
