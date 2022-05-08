@@ -121,9 +121,9 @@ namespace Typing
         private readonly Dictionary<int, bool> isPressed = new Dictionary<int, bool>();
         private readonly Configure cfg = new Configure();
         private ConfigWindow cfgWnd;
-        private string defaultAudioPath;
-        private string defaultImagePath;
-        private double defaultVolume;
+        private string audioPath;
+        private string imagePath;
+        private double volume;
         private bool isMute = false;
 
         public MainWindow()
@@ -154,25 +154,25 @@ namespace Typing
         private void InitSettings(string _)
         {
             // 지정된 설정값 불러오기
-            defaultAudioPath = (string)cfg.Get("audioPath");
-            if (defaultAudioPath.Equals(""))
+            audioPath = (string)cfg.Get("audioPath");
+            if (audioPath.Equals(""))
             {
                 // ini 파일이 없는 경우 
-                defaultAudioPath = $"{Path.Combine(Directory.GetCurrentDirectory(), "Sound.wav")}";
-                cfg.Put("audioPath", defaultAudioPath);
+                audioPath = $"{Path.Combine(Directory.GetCurrentDirectory(), "Sound.wav")}";
+                cfg.Put("audioPath", audioPath);
             }
 
-            defaultImagePath = (string)cfg.Get("imagePath");
-            if (defaultImagePath.Equals(""))
+            imagePath = (string)cfg.Get("imagePath");
+            if (imagePath.Equals(""))
             {
-                defaultImagePath = $"{Path.Combine(Directory.GetCurrentDirectory(), "djmax.gif")}";
-                cfg.Put("imagePath", defaultImagePath);
+                imagePath = $"{Path.Combine(Directory.GetCurrentDirectory(), "djmax.gif")}";
+                cfg.Put("imagePath", imagePath);
             }
 
-            if (!double.TryParse((string)cfg.Get("volume"), out defaultVolume))
+            if (!double.TryParse((string)cfg.Get("volume"), out volume))
             {
-                defaultVolume = 50.0;
-                cfg.Put("volume", defaultVolume.ToString("F0"));
+                volume = 50.0;
+                cfg.Put("volume", volume.ToString("F0"));
             }
 
             InitPlayer();
@@ -181,19 +181,20 @@ namespace Typing
 
         private void InitPlayer()
         {
-            Uri audioPath = new Uri($"file:///{defaultAudioPath}");
+            Uri audioPathUri = new Uri($"file:///{audioPath}");
 
             foreach (MediaPlayer player in players)
             {
-                player.Open(audioPath);
-                player.Volume = defaultVolume / 100;
+                player.Close();
+                player.Open(audioPathUri);
+                player.Volume = volume / 100;
             }
         }
         private void InitBackground()
         {
             BitmapImage image = new BitmapImage();
             image.BeginInit();
-            image.UriSource = new Uri($"file:///{defaultImagePath}");
+            image.UriSource = new Uri($"file:///{imagePath}");
             image.EndInit();
 
             WpfAnimatedGif.ImageBehavior.SetAnimatedSource(BgImage, image);
@@ -255,7 +256,7 @@ namespace Typing
 
             foreach (MediaPlayer player in players)
             {
-                player.Volume = isMute ? 0.0 : defaultVolume / 100;
+                player.Volume = isMute ? 0.0 : volume / 100;
             }
         }
 
